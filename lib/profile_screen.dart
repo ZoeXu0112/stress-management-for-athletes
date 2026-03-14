@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stress_management_by_zoe/constants.dart';
 
-/// Profile screen with mood/emotion graph — UI only.
+/// Profile page built from the same design trends as Home, Check-in, Exercises, and Progress.
+/// Shows a mood/emotion graph over Day, Week, Month, or Year (UI only, placeholder data).
 enum _TimeRange { day, week, month, year }
 
 class ProfileScreen extends StatefulWidget {
@@ -112,16 +113,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildTimeRangeSelector() {
-    return Row(
-      children: [
-        _buildRangeChip('Day', _TimeRange.day),
-        const SizedBox(width: 10),
-        _buildRangeChip('Week', _TimeRange.week),
-        const SizedBox(width: 10),
-        _buildRangeChip('Month', _TimeRange.month),
-        const SizedBox(width: 10),
-        _buildRangeChip('Year', _TimeRange.year),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          _buildRangeChip('Day', _TimeRange.day),
+          const SizedBox(width: 10),
+          _buildRangeChip('Week', _TimeRange.week),
+          const SizedBox(width: 10),
+          _buildRangeChip('Month', _TimeRange.month),
+          const SizedBox(width: 10),
+          _buildRangeChip('Year', _TimeRange.year),
+        ],
+      ),
     );
   }
 
@@ -179,34 +183,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
           const SizedBox(height: 24),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8, top: 4, bottom: 24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Good', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: statusGood)),
-                    Text('High stress', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: textMuted)),
-                  ],
-                ),
+          SizedBox(
+            height: 180,
+            width: double.infinity,
+            child: CustomPaint(
+              painter: _MoodLineChartPainter(
+                data: data,
+                lineColor: navSelected,
+                fillColor: navSelected.withValues(alpha: 0.15),
+                gridColor: textMuted.withValues(alpha: 0.12),
               ),
-              Expanded(
-                child: SizedBox(
-                  height: 180,
-                  child: CustomPaint(
-                    painter: _MoodLineChartPainter(
-                      data: data,
-                      lineColor: navSelected,
-                      fillColor: navSelected.withValues(alpha: 0.15),
-                      gridColor: textMuted.withValues(alpha: 0.12),
-                    ),
-                    size: Size.infinite,
-                  ),
-                ),
-              ),
-            ],
+              size: Size.infinite,
+            ),
           ),
           const SizedBox(height: 12),
           SingleChildScrollView(

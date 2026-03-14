@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stress_management_by_zoe/constants.dart';
+import 'package:stress_management_by_zoe/home/breathing_plan_screen.dart';
+import 'package:stress_management_by_zoe/home/recommended_articles_screen.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -165,9 +167,35 @@ class _HomescreenState extends State<Homescreen> {
         const SizedBox(height: 16),
         Row(
           children: [
-            Expanded(child: _buildQuickReliefButton('Breathing', Icons.air, quickBreathing)),
+            Expanded(
+              child: _buildQuickReliefButton(
+                'Breathing',
+                Icons.air,
+                quickBreathing,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const BreathingPlanScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
             const SizedBox(width: 12),
-            Expanded(child: _buildQuickReliefButton('Meditation', Icons.self_improvement, quickMeditation)),
+            Expanded(
+              child: _buildQuickReliefButton(
+                'Article',
+                Icons.article_rounded,
+                quickMeditation,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const RecommendedArticlesScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 12),
@@ -182,12 +210,12 @@ class _HomescreenState extends State<Homescreen> {
     );
   }
 
-  Widget _buildQuickReliefButton(String label, IconData icon, Color color) {
+  Widget _buildQuickReliefButton(String label, IconData icon, Color color, {VoidCallback? onTap}) {
     return Material(
       color: color,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
-        onTap: () {},
+        onTap: onTap ?? () {},
         borderRadius: BorderRadius.circular(16),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 20),
@@ -255,5 +283,4 @@ class _HomescreenState extends State<Homescreen> {
       ),
     );
   }
-
 }

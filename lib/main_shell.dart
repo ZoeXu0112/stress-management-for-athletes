@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stress_management_by_zoe/constants.dart';
-import 'package:stress_management_by_zoe/homescreen.dart';
+import 'package:stress_management_by_zoe/home/homescreen.dart';
 import 'package:stress_management_by_zoe/check_in_screen.dart';
 import 'package:stress_management_by_zoe/exercises_screen.dart';
 import 'package:stress_management_by_zoe/progress_screen.dart';
