@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "810942647530",
+    "project_id": "manage-skating-help",
+    "storage_bucket": "manage-skating-help.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810942647530:android:6e33f2dd25ab92f3839b93",
+        "android_client_info": {
+          "package_name": "com.example.stress_management_by_zoe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH0_6tzxsX_rGBd3IWR7t4XzS0k5_Qbl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
