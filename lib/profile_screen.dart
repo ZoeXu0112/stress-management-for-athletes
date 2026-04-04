@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stress_management_by_zoe/constants.dart';
 
@@ -41,37 +42,121 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> _confirmAndLogOut() async {
+    final shouldLogOut = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text('Log out?', style: TextStyle(color: textDark, fontWeight: FontWeight.bold)),
+        content: Text(
+          'You will need to sign in again to use the app.',
+          style: TextStyle(color: textMuted),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text('Cancel', style: TextStyle(color: textMuted)),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: FilledButton.styleFrom(backgroundColor: navSelected),
+            child: const Text('Log out'),
+          ),
+        ],
+      ),
+    );
+    if (shouldLogOut != true || !mounted) return;
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(),
-            const SizedBox(height: 24),
-            _buildSummaryCard(),
-            const SizedBox(height: 24),
-            _buildTimeRangeSelector(),
-            const SizedBox(height: 20),
-            _buildMoodGraphCard(),
-            const SizedBox(height: 24),
-            _buildLegendCard(),
-          ],
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        title: Text(
+          'Profile',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: textDark,
+          ),
+        ),
+        actions: [
+          PopupMenuButton<String>(
+            icon: Icon(Icons.settings_rounded, color: textDark),
+            color: cardWhite,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            offset: const Offset(0, kToolbarHeight - 8),
+            onSelected: (value) {
+              if (value == 'logout') _confirmAndLogOut();
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem<String>(
+                value: 'logout',
+                child: Row(
+                  children: [
+                    Icon(Icons.logout_rounded, color: textDark, size: 22),
+                    const SizedBox(width: 12),
+                    Text('Log out', style: TextStyle(color: textDark, fontWeight: FontWeight.w500)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildSubtitle(),
+              const SizedBox(height: 24),
+              _buildSummaryCard(),
+              const SizedBox(height: 24),
+              _buildTimeRangeSelector(),
+              const SizedBox(height: 20),
+              _buildMoodGraphCard(),
+              const SizedBox(height: 24),
+              _buildLegendCard(),
+              const SizedBox(height: 16),
+              _buildLogOutButton(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Profile', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: textDark)),
-        const SizedBox(height: 6),
-        Text('Your mood and emotion over time.', style: TextStyle(fontSize: 16, color: textMuted)),
-      ],
+  Widget _buildSubtitle() {
+    return Text(
+      'Your mood and emotion over time.',
+      style: TextStyle(fontSize: 16, color: textMuted, height: 1.4),
+    );
+  }
+
+  Widget _buildLogOutButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: _confirmAndLogOut,
+        icon: Icon(Icons.logout_rounded, color: navSelected),
+        label: Text(
+          'Log out',
+          style: TextStyle(color: navSelected, fontWeight: FontWeight.w600),
+        ),
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          side: BorderSide(color: navSelected.withValues(alpha: 0.5)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        ),
+      ),
     );
   }
 
