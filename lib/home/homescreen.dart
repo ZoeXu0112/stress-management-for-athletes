@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stress_management_by_zoe/constants.dart';
 import 'package:stress_management_by_zoe/home/breathing_plan_screen.dart';
+import 'package:stress_management_by_zoe/home/grounding_screen.dart';
 import 'package:stress_management_by_zoe/home/recommended_articles_screen.dart';
+import 'package:stress_management_by_zoe/home/visualization_screen.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -201,9 +203,35 @@ class _HomescreenState extends State<Homescreen> {
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(child: _buildQuickReliefButton('Visualization', Icons.visibility, quickVisualization)),
+            Expanded(
+              child: _buildQuickReliefButton(
+                'Visualization',
+                Icons.visibility,
+                quickVisualization,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const VisualizationScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
             const SizedBox(width: 12),
-            Expanded(child: _buildQuickReliefButton('Grounding', Icons.back_hand, quickGrounding)),
+            Expanded(
+              child: _buildQuickReliefButton(
+                'Grounding',
+                Icons.back_hand,
+                quickGrounding,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const GroundingScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ],

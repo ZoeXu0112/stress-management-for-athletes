@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stress_management_by_zoe/box_breathing_screen.dart';
+import 'package:stress_management_by_zoe/breathing_exercise_video_screen.dart';
 import 'package:stress_management_by_zoe/constants.dart';
 
 /// Exercises screen — UI only.
@@ -15,9 +17,9 @@ class ExercisesScreen extends StatelessWidget {
           children: [
             _buildHeader(),
             const SizedBox(height: 24),
-            _buildRecommendedCard(),
+            _buildRecommendedCard(context),
             const SizedBox(height: 28),
-            _buildAllTechniquesSection(),
+            _buildAllTechniquesSection(context),
           ],
         ),
       ),
@@ -41,7 +43,7 @@ class ExercisesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRecommendedCard() {
+  Widget _buildRecommendedCard(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
@@ -97,7 +99,13 @@ class ExercisesScreen extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (context) => const BreathingExerciseVideoScreen(),
+                  ),
+                );
+              },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: navSelected,
@@ -112,7 +120,7 @@ class ExercisesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAllTechniquesSection() {
+  Widget _buildAllTechniquesSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -126,9 +134,15 @@ class ExercisesScreen extends StatelessWidget {
           iconBgColor: quickMeditation.withValues(alpha: 0.25),
           title: 'Box Breathing',
           description: 'Rhythmic breathing for focus',
-          duration: '3 min',
+          duration: '5 min',
           hasAudio: true,
-          onPlay: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => const BoxBreathingScreen(),
+              ),
+            );
+          },
         ),
         const SizedBox(height: 12),
         _buildTechniqueRow(
@@ -138,7 +152,7 @@ class ExercisesScreen extends StatelessWidget {
           description: 'Release physical tension',
           duration: '10 min',
           hasAudio: true,
-          onPlay: () {},
+          onTap: null,
         ),
       ],
     );
@@ -151,9 +165,9 @@ class ExercisesScreen extends StatelessWidget {
     required String description,
     required String duration,
     required bool hasAudio,
-    required VoidCallback onPlay,
+    VoidCallback? onTap,
   }) {
-    return Container(
+    final card = Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: cardWhite,
@@ -202,6 +216,15 @@ class ExercisesScreen extends StatelessWidget {
             child: Icon(Icons.play_arrow_rounded, size: 32, color: textDark),
           ),
         ],
+      ),
+    );
+    if (onTap == null) return card;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: card,
       ),
     );
   }

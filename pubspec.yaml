@@ -37,6 +37,11 @@ dependencies:
   firebase_core: ^4.5.0
   firebase_auth: ^6.2.0
   cloud_firestore: ^6.1.3
+  video_player: ^2.10.1
+  image_picker: ^1.1.2
+  path_provider: ^2.1.5
+  url_launcher: ^6.3.1
+  just_audio: ^0.10.5
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +67,12 @@ flutter:
 
   assets:
     - assets/0540317C-3BB3-4403-9E97-4393FABF3CB9.png
+    - assets/breathing_video.mp4
+    - assets/box_breathing_guided.mp3
+    - assets/outcome_visualization.png
+    - assets/motivational_visualization.png
+    - assets/process_visualization.png
+    - assets/situational_visualization.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
